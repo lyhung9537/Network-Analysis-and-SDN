@@ -1,0 +1,35 @@
+from mininet.topo import Topo
+from mininet.link import TCLink
+import os
+
+class Topology(Topo):
+    def __init__(self):
+        # Initialize topology
+        Topo.__init__(self)
+
+	    # Add hosts into topology
+        h1 = self.addHost('h1')
+        h2 = self.addHost('h2')
+
+        # Add switches into topology
+        s1 = self.addSwitch('s1')
+        s2 = self.addSwitch('s2')
+        s3 = self.addSwitch('s3')
+        s4 = self.addSwitch('s4')
+
+        # Add links into topology
+        # s1 (h1: port1, s2: port2, s3: port3)
+        self.addLink(s1, h1, port1=1, port2=0)
+        # s2 (s1: port1, s4: port2)
+        self.addLink(s2, s1, port1=1, port2=2)
+        self.addLink(s2, s4, port1=2, port2=2)
+        # s3 (s1: port1, s4: port2)
+        self.addLink(s3, s1, port1=1, port2=3)
+        self.addLink(s3, s4, port1=2, port2=3)
+        # s4 (h2: port1, s2: port2, s3: port3)
+        self.addLink(s4, h2, port1=1, port2=0)
+	      
+
+topos = {
+    'topo': (lambda: Topology())
+}
